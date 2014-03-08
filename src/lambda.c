@@ -40,7 +40,9 @@ static int LD(int n, const double *Q, double *L, double *D)
         for (j=0;j<=i;j++) L[i+j*n]/=L[i+i*n];
     }
     free(A);
+#ifndef WITHOUT_FILE
     if (info) fprintf(stderr,"%s : LD factorization error\n",__FILE__);
+#endif
     return info;
 }
 /* integer gauss transformation ----------------------------------------------*/
@@ -144,7 +146,9 @@ static int search(int n, int m, const double *L, const double *D,
     free(S); free(dist); free(zb); free(z); free(step);
     
     if (c>=LOOPMAX) {
+#ifndef WITHOUT_FILE
         fprintf(stderr,"%s : search loop count overflow\n",__FILE__);
+#endif
         return -1;
     }
     return 0;

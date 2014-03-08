@@ -90,7 +90,7 @@ extern int resamb_TCAR(rtk_t *rtk, const obsd_t *obs, const int *sat,
                        const double *azel) {return 0;}
 #endif
 
-#ifndef WITHOUT_FPRINTF
+#ifndef WITHOUT_FILE
 /* global variables ----------------------------------------------------------*/
 static int statlevel=0;          /* rtk status output level (0:off) */
 static FILE *fp_stat=NULL;       /* rtk status file pointer */
@@ -194,7 +194,7 @@ extern void rtkprintstat(int level, const char *str, ...){
   vfprintf(fp_stat, str, arg);
   va_end(arg);
 }
-#endif /* #ifndef WITHOUT_FPRINTF */
+#endif /* #ifndef WITHOUT_FILE */
 
 /* output solution status ----------------------------------------------------*/
 static void outsolstat(rtk_t *rtk)

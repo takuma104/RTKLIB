@@ -131,7 +131,7 @@ extern void pppoutsolstat2(
     }
 }
 
-#ifndef WITHOUT_FPRINTF
+#ifndef WITHOUT_FILE
 static FILE *fp_printstat;
 static void printstat(int level, const char *str, ...){
   va_list arg;
@@ -147,7 +147,7 @@ extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
   fp_printstat = fp;
   pppoutsolstat2(rtk, printstat);
 }
-#endif /* #ifndef WITHOUT_FPRINTF */
+#endif /* #ifndef WITHOUT_FILE */
 
 /* solar/lunar tides (ref [2] 7) ---------------------------------------------*/
 static void tide_pl(const double *eu, const double *rp, double GMp,
