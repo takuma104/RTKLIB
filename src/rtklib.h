@@ -34,11 +34,16 @@
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
+#ifndef WITHOUT_THREAD
 #ifdef WIN32
 #include <winsock2.h>
 #include <windows.h>
 #else
 #include <pthread.h>
+#endif
+#endif /* #ifndef WITHOUT_THREAD */
+#ifdef WIN32
+#include <windows.h>
 #endif
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +56,11 @@ extern "C" {
 #define COPYRIGHT_RTKLIB \
             "Copyright (C) 2007-2013 by T.Takasu\nAll rights reserved."
 
+#ifdef M_PI
+#define PI M_PI
+#else
 #define PI          3.1415926535897932  /* pi */
+#endif
 #define D2R         (PI/180.0)          /* deg to rad */
 #define R2D         (180.0/PI)          /* rad to deg */
 #define CLIGHT      299792458.0         /* speed of light (m/s) */
@@ -426,19 +435,31 @@ extern "C" {
 #define P2_50       8.881784197001252E-16 /* 2^-50 */
 #define P2_55       2.775557561562891E-17 /* 2^-55 */
 
+#ifndef WITHOUT_THREAD
 #ifdef WIN32
 #define thread_t    HANDLE
 #define lock_t      CRITICAL_SECTION
 #define initlock(f) InitializeCriticalSection(f)
 #define lock(f)     EnterCriticalSection(f)
 #define unlock(f)   LeaveCriticalSection(f)
-#define FILEPATHSEP '\\'
 #else
 #define thread_t    pthread_t
 #define lock_t      pthread_mutex_t
 #define initlock(f) pthread_mutex_init(f,NULL)
 #define lock(f)     pthread_mutex_lock(f)
 #define unlock(f)   pthread_mutex_unlock(f)
+#endif
+#else
+#define thread_t    int
+#define lock_t      int
+#define initlock(f)
+#define lock(f)
+#define unlock(f)
+#endif /* #ifndef WITHOUT_THREAD */
+
+#ifdef WIN32
+#define FILEPATHSEP '\\'
+#else
 #define FILEPATHSEP '/'
 #endif
 
@@ -1606,6 +1627,7 @@ extern void rtkfree(rtk_t *rtk);
 extern int  rtkpos (rtk_t *rtk, const obsd_t *obs, int nobs, const nav_t *nav);
 extern int  rtkopenstat(const char *file, int level);
 extern void rtkclosestat(void);
+extern void rtkprintstat(int level, const char *str, ...);
 
 /* precise point positioning -------------------------------------------------*/
 extern void pppos(rtk_t *rtk, const obsd_t *obs, int n, const nav_t *nav);
@@ -1613,6 +1635,7 @@ extern int pppamb(rtk_t *rtk, const obsd_t *obs, int n, const nav_t *nav,
                   const double *azel);
 extern int pppnx(const prcopt_t *opt);
 extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp);
+extern void pppoutsolstat2(rtk_t *rtk, void (*)(int, const char *, ...));
 extern void windupcorr(gtime_t time, const double *rs, const double *rr,
                        double *phw);
 

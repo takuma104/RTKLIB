@@ -75,22 +75,22 @@ extern int dehanttideinel_(double *xsta, int *year, int *mon, int *day,
                            double *dxtide);
 #endif
 
-/* output solution status for PPP --------------------------------------------*/
-extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
-{
+
+/* output solution status 2 for PPP --------------------------------------------*/
+extern void pppoutsolstat2(
+        rtk_t *rtk,
+        void (*print)(int, const char *, ...)){
     ssat_t *ssat;
     double tow,pos[3],vel[3],acc[3];
     int i,j,week,nfreq=1;
     char id[32];
-    
-    if (level<=0||!fp) return;
     
     trace(3,"pppoutsolstat:\n");
     
     tow=time2gpst(rtk->sol.time,&week);
     
     /* receiver position */
-    fprintf(fp,"$POS,%d,%.3f,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",week,tow,
+    print(1,"$POS,%d,%.3f,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n",week,tow,
             rtk->sol.stat,rtk->x[0],rtk->x[1],rtk->x[2],0.0,0.0,0.0);
     
     /* receiver velocity and acceleration */
@@ -98,23 +98,23 @@ extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
         ecef2pos(rtk->sol.rr,pos);
         ecef2enu(pos,rtk->x+3,vel);
         ecef2enu(pos,rtk->x+6,acc);
-        fprintf(fp,"$VELACC,%d,%.3f,%d,%.4f,%.4f,%.4f,%.5f,%.5f,%.5f,%.4f,%.4f,%.4f,%.5f,%.5f,%.5f\n",
+        print(1,"$VELACC,%d,%.3f,%d,%.4f,%.4f,%.4f,%.5f,%.5f,%.5f,%.4f,%.4f,%.4f,%.5f,%.5f,%.5f\n",
                 week,tow,rtk->sol.stat,vel[0],vel[1],vel[2],acc[0],acc[1],acc[2],
                 0.0,0.0,0.0,0.0,0.0,0.0);
     }
     /* receiver clocks */
     i=IC(0,&rtk->opt);
-    fprintf(fp,"$CLK,%d,%.3f,%d,%d,%.3f,%.3f,%.3f,%.3f\n",
+    print(1,"$CLK,%d,%.3f,%d,%d,%.3f,%.3f,%.3f,%.3f\n",
             week,tow,rtk->sol.stat,1,rtk->x[i]*1E9/CLIGHT,rtk->x[i+1]*1E9/CLIGHT,
             0.0,0.0);
     
     /* tropospheric parameters */
     if (rtk->opt.tropopt==TROPOPT_EST||rtk->opt.tropopt==TROPOPT_ESTG) {
         i=IT(&rtk->opt);
-        fprintf(fp,"$TROP,%d,%.3f,%d,%d,%.4f,%.4f\n",week,tow,rtk->sol.stat,
+        print(1,"$TROP,%d,%.3f,%d,%d,%.4f,%.4f\n",week,tow,rtk->sol.stat,
                 1,rtk->x[i],0.0);
     }
-    if (rtk->sol.stat==SOLQ_NONE||level<=1) return;
+    if (rtk->sol.stat==SOLQ_NONE) return;
     
     /* residuals and status */
     for (i=0;i<MAXSAT;i++) {
@@ -122,7 +122,7 @@ extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
         if (!ssat->vs) continue;
         satno2id(i+1,id);
         for (j=0;j<nfreq;j++) {
-            fprintf(fp,"$SAT,%d,%.3f,%s,%d,%.1f,%.1f,%.4f,%.4f,%d,%.0f,%d,%d,%d,%d,%d,%d\n",
+          print(2,"$SAT,%d,%.3f,%s,%d,%.1f,%.1f,%.4f,%.4f,%d,%.0f,%d,%d,%d,%d,%d,%d\n",
                     week,tow,id,j+1,ssat->azel[0]*R2D,ssat->azel[1]*R2D,
                     ssat->resp[j],ssat->resc[j],ssat->vsat[j],ssat->snr[j]*0.25,
                     ssat->fix[j],ssat->slip[j]&3,ssat->lock[j],ssat->outc[j],
@@ -130,6 +130,25 @@ extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
         }
     }
 }
+
+#ifndef WITHOUT_FPRINTF
+static FILE *fp_printstat;
+static void printstat(int level, const char *str, ...){
+  va_list arg;
+  va_start(arg, str);
+  vfprintf(fp_printstat, str, arg);
+  va_end(arg);
+}
+
+/* output solution status for PPP --------------------------------------------*/
+extern void pppoutsolstat(rtk_t *rtk, int level, FILE *fp)
+{
+  if (level<=0||!fp) return;
+  fp_printstat = fp;
+  pppoutsolstat2(rtk, printstat);
+}
+#endif /* #ifndef WITHOUT_FPRINTF */
+
 /* solar/lunar tides (ref [2] 7) ---------------------------------------------*/
 static void tide_pl(const double *eu, const double *rp, double GMp,
                     const double *pos, double *dr)
@@ -197,8 +216,7 @@ static void tide_solid(const double *rsun, const double *rmoon,
     if (opt&8) {
         sinl=sin(pos[0]); 
         du=0.1196*(1.5*sinl*sinl-0.5);
-        dn=0.0247*sin2l;
-        dr[0]+=du*E[2]+dn*E[1];
+        dn=0.0247*sin2l;        dr[0]+=du*E[2]+dn*E[1];
         dr[1]+=du*E[5]+dn*E[4];
         dr[2]+=du*E[8]+dn*E[7];
     }
