@@ -89,6 +89,7 @@ static tec_t *addtec(const double *lats, const double *lons, const double *hgts,
     nav->nt++;
     return p;
 }
+#ifndef WITHOUT_FILE
 /* read ionex dcb aux data ----------------------------------------------------*/
 static void readionexdcb(FILE *fp, double *dcb, double *rms)
 {
@@ -236,6 +237,7 @@ static int readionexb(FILE *fp, const double *lats, const double *lons,
     }
     return 1;
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* combine tec grid data -----------------------------------------------------*/
 static void combtec(nav_t *nav)
 {
@@ -266,6 +268,7 @@ static void combtec(nav_t *nav)
     
     trace(4,"combtec : nav->nt=%d\n",nav->nt);
 }
+#ifndef WITHOUT_FILE
 /* read ionex tec grid file ----------------------------------------------------
 * read ionex ionospheric tec grid file
 * args   : char   *file       I   ionex tec grid file
@@ -324,6 +327,7 @@ extern void readtec(const char *file, nav_t *nav, int opt)
         nav->cbias[i][0]=CLIGHT*dcb[i]*1E-9; /* ns->m */
     }
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* interpolate tec grid data -------------------------------------------------*/
 static int interptec(const tec_t *tec, int k, const double *posp, double *value,
                      double *rms)

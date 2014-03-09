@@ -526,6 +526,7 @@ static int cmpmsgs(const void *p1, const void *p2)
     return q1->week!=q2->week?q1->week-q2->week:
            (q1->tow<q2->tow?-1:(q1->tow>q2->tow?1:q1->prn-q2->prn));
 }
+#ifndef WITHOUT_FILE
 /* read sbas message file ------------------------------------------------------
 * read sbas message file
 * args   : char     *file   I   sbas message file (wind-card * is expanded)
@@ -597,6 +598,7 @@ extern void sbsoutmsg(FILE *fp, sbsmsg_t *sbsmsg)
     for (i=0;i<29;i++) fprintf(fp,"%02X",sbsmsg->msg[i]);
     fprintf(fp,"\n");
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* search igps ---------------------------------------------------------------*/
 static void searchigp(gtime_t time, const double *pos, const sbsion_t *ion,
                       const sbsigp_t **igp, double *x, double *y)

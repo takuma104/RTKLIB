@@ -1953,6 +1953,7 @@ static void addpcv(const pcv_t *pcv, pcvs_t *pcvs)
     }
     pcvs->pcv[pcvs->n++]=*pcv;
 }
+#ifndef WITHOUT_FILE
 /* read ngs antenna parameter file -------------------------------------------*/
 static int readngspcv(const char *file, pcvs_t *pcvs)
 {
@@ -2102,6 +2103,7 @@ extern int readpcv(const char *file, pcvs_t *pcvs)
     }
     return stat;
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* search antenna parameter ----------------------------------------------------
 * read satellite antenna phase center position
 * args   : int    sat         I   satellite number (0: receiver antenna)
@@ -2150,6 +2152,7 @@ extern pcv_t *searchpcv(int sat, const char *type, gtime_t time,
     }
     return NULL;
 }
+#ifndef WITHOUT_FILE
 /* read station positions ------------------------------------------------------
 * read positions from station position file
 * args   : char  *file      I   station position file containing
@@ -2287,6 +2290,7 @@ extern int readerp(const char *file, erp_t *erp)
     fclose(fp);
     return 1;
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* get earth rotation parameter values -----------------------------------------
 * get earth rotation parameter values
 * args   : erp_t  *erp        I   earth rotation parameters
@@ -2529,6 +2533,7 @@ extern int screent(gtime_t time, gtime_t ts, gtime_t te, double tint)
            (ts.time==0||timediff(time,ts)>=-DTTOL)&&
            (te.time==0||timediff(time,te)<  DTTOL);
 }
+#ifndef WITHOUT_FILE
 /* read/save navigation data ---------------------------------------------------
 * save or load navigation data
 * args   : char    file  I      file path
@@ -2615,6 +2620,7 @@ extern int savenav(const char *file, const nav_t *nav)
     fclose(fp);
     return 1;
 }
+#endif
 /* free observation data -------------------------------------------------------
 * free memory for observation data
 * args   : obs_t *obs    IO     observation data
@@ -2861,6 +2867,7 @@ extern int execcmd(const char *cmd)
     return system(cmd);
 #endif
 }
+#ifndef WITHOUT_FILE
 /* expand file path ------------------------------------------------------------
 * expand file path with wild-card (*) in file
 * args   : char   *path     I   file path to expand (captal insensitive)
@@ -2955,6 +2962,7 @@ extern void createdir(const char *path)
     mkdir(buff,0777);
 #endif
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* replace string ------------------------------------------------------------*/
 static int repstr(char *str, const char *pat, const char *rep)
 {

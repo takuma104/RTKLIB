@@ -1438,11 +1438,16 @@ extern int readrnxt(const char *file, int rcv, gtime_t ts, gtime_t te,
             return -1;
         }
     }
+#ifndef WITHOUT_FILE
     /* expand wild-card */
     if ((n=expath(file,files,MAXEXFILE))<=0) {
         for (i=0;i<MAXEXFILE;i++) free(files[i]);
         return 0;
     }
+#else
+    strcpy(files[0], file);
+    n = 1;
+#endif
     /* read rinex files */
     for (i=0;i<n&&stat>=0;i++) {
         stat=readrnxfile(files[i],ts,te,tint,opt,0,rcv,&type,obs,nav,sta);
@@ -1525,8 +1530,13 @@ extern int readrnxc(const char *file, nav_t *nav)
             for (i--;i>=0;i--) free(files[i]); return 0;
         }
     }
+#ifndef WITHOUT_FILE
     /* expand wild-card */
     n=expath(file,files,MAXEXFILE);
+#else
+    strcpy(files[0], file);
+    n = 1;
+#endif
     
     /* read rinex clock files */
     for (i=0;i<n;i++) {
