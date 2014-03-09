@@ -449,6 +449,7 @@ extern int sbsupdatecorr(const sbsmsg_t *msg, nav_t *nav)
     }
     return stat?type:-1;
 }
+#ifndef WITHOUT_FILE
 /* read sbas log file --------------------------------------------------------*/
 static void readmsgs(const char *file, int sel, gtime_t ts, gtime_t te,
                      sbs_t *sbs)
@@ -519,6 +520,7 @@ static void readmsgs(const char *file, int sel, gtime_t ts, gtime_t te,
     }
     fclose(fp);
 }
+#endif /* #ifndef WITHOUT_FILE */
 /* compare sbas messages -----------------------------------------------------*/
 static int cmpmsgs(const void *p1, const void *p2)
 {

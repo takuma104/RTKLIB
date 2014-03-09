@@ -1108,15 +1108,6 @@ extern int smoother(const double *xf, const double *Qf, const double *xb,
     free(invQf); free(invQb); free(xx);
     return info;
 }
-/* print matrix ----------------------------------------------------------------
-* print matrix to stdout
-* args   : double *A        I   matrix A (n x m)
-*          int    n,m       I   number of rows and columns of A
-*          int    p,q       I   total columns, columns under decimal point
-*         (FILE  *fp        I   output file pointer)
-* return : none
-* notes  : matirix stored by column-major order (fortran convention)
-*-----------------------------------------------------------------------------*/
 static void mat_print(
     const double A[], int n, int m, int p, int q,
     int (*print)(const char *format, ...)){
@@ -1128,6 +1119,15 @@ static void mat_print(
   }
 }
 #ifndef WITHOUT_FILE
+/* print matrix ----------------------------------------------------------------
+* print matrix to stdout
+* args   : double *A        I   matrix A (n x m)
+*          int    n,m       I   number of rows and columns of A
+*          int    p,q       I   total columns, columns under decimal point
+*         (FILE  *fp        I   output file pointer)
+* return : none
+* notes  : matirix stored by column-major order (fortran convention)
+*-----------------------------------------------------------------------------*/
 extern void matfprint(const double A[], int n, int m, int p, int q, FILE *fp)
 {
     int i,j;
