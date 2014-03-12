@@ -2670,17 +2670,22 @@ extern void traceclose(void)
     if (fp_trace&&fp_trace!=stderr) fclose(fp_trace);
     fp_trace=NULL;
 }
-extern int trace_printf(const char *format, ...){
-  va_list ap;
+extern int trace_vprintf(const char *format, va_list ap){
   int res;
   if(!fp_trace){return -1;}
-  va_start(ap,format);
   res = vfprintf(fp_trace, format, ap);
-  va_end(ap);
   fflush(fp_trace);
   return res;
 }
 #endif
+static int trace_printf(const char *format, ...){
+  va_list ap;
+  int res;
+  va_start(ap, format);
+  res = trace_vprintf(format, ap);
+  va_end(ap);
+  return res;
+}
 extern void tracelevel(int level)
 {
     level_trace=level;
@@ -2697,7 +2702,7 @@ extern void trace(int level, const char *format, ...)
 #endif
     if (level>level_trace) return;
     trace_printf("%d ",level);
-    va_start(ap,format); trace_printf(format,ap); va_end(ap);
+    va_start(ap,format); trace_vprintf(format,ap); va_end(ap);
 }
 extern void tracet(int level, const char *format, ...)
 {
@@ -2705,7 +2710,7 @@ extern void tracet(int level, const char *format, ...)
     
     if (level>level_trace) return;
     trace_printf("%d %9.3f: ",level,(tickget()-tick_trace)/1000.0);
-    va_start(ap,format); trace_printf(format,ap); va_end(ap);
+    va_start(ap,format); trace_vprintf(format,ap); va_end(ap);
 }
 extern void tracemat(int level, const double *A, int n, int m, int p, int q)
 {

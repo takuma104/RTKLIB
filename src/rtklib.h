@@ -1339,7 +1339,7 @@ extern int  geterp (const erp_t *erp, gtime_t time, double *val);
 /* debug trace functions -----------------------------------------------------*/
 extern void traceopen(const char *file);
 extern void traceclose(void);
-extern int  trace_printf(const char *format, ...);
+extern int  trace_vprintf(const char *format, va_list ap);
 extern void tracelevel(int level);
 extern void trace    (int level, const char *format, ...);
 extern void tracet   (int level, const char *format, ...);
