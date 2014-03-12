@@ -3642,6 +3642,7 @@ extern void csmooth(obs_t *obs, int ns)
         }
     }
 }
+#ifndef WITHOUT_FILE
 /* uncompress file -------------------------------------------------------------
 * uncompress (uncompress/unzip/uncompact hatanaka-compression/tar) file
 * args   : char   *file     I   input file
@@ -3718,6 +3719,7 @@ extern int uncompress(const char *file, char *uncfile)
     trace(3,"uncompress: stat=%d\n",stat);
     return stat;
 }
+#endif
 /* dummy application functions for shared library ----------------------------*/
 #ifdef DLL
 extern int showmsg(char *format,...) {return 0;}
