@@ -18,12 +18,12 @@ SRCS_ORIG = rtkcmn.c rtkpos.c ppp.c ephemeris.c lambda.c pntpos.c sbas.c ionex.c
 SRCS = ../minimal_rtkpos.c $(patsubst %,$(ORIG_SRC_DIR)%,$(SRCS_ORIG))
 OBJS = $(patsubst %.c,%.o,$(notdir $(SRCS)))
 
-all : $(BUILD_DIR) depend $(PACKAGE)
+all : $(BUILD_DIR) $(PACKAGE)
 
-# ヘッダーファイルの依存関係
-depend: $(SRCS)
+# ヘッダーファイルの依存関係 @see http://lists.gnu.org/archive/html/automake/2002-01/msg00155.html
+$(BUILD_DIR)/depend.inc: $(BUILD_DIR) makefile
 	rm -f $(BUILD_DIR)/depend.inc; \
-	for i in $^; do \
+	for i in $(SRCS); do \
 		$(CXX) -E -MM $(INCLUDES) $(CPPFLAGS) $$i >> tempfile; \
 		if ! [ $$? = 0 ]; then \
 			rm -f tempfile; \
@@ -36,7 +36,7 @@ depend: $(SRCS)
 -include $(BUILD_DIR)/depend.inc
 
 $(BUILD_DIR)/%.o :
-	$(CXX) -c $(CFLAGS) $(INCLUDES) -o $@ $(findstring $<,$(SRCS))
+	$(CXX) -c $(CFLAGS) $(INCLUDES) -o $@ $(findstring $<,$^)
 
 $(PACKAGE) : $(patsubst %,$(BUILD_DIR)/%,$(PACKAGE))
 
@@ -51,5 +51,5 @@ clean :
 
 run : all
 
-.PHONY : clean all depend
+.PHONY : clean all
 
