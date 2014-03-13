@@ -9,13 +9,13 @@ CPPFLAGS = -DWITHOUT_FILE -DWITHOUT_THREAD -DTRACE
 #-mfpu=neon -mfloat-abi=softfp -ffast-math #for beaglebone
 CFLAGS = $(CPPFLAGS) #-Wall -O3 -ansi -pedantic
 LFLAGS =  
-ORIG_SRC_DIR = ../../src/
+ORIG_SRC_DIR = ../../../src/
 INCLUDES = -I$(ORIG_SRC_DIR)
 LIBS = #-L
 BUILD_DIR = build_GCC
 
 SRCS_ORIG = rtkcmn.c rtkpos.c ppp.c ephemeris.c lambda.c pntpos.c sbas.c ionex.c ppp_ar.c preceph.c
-SRCS = minimal_rtkpos.c $(patsubst %,$(ORIG_SRC_DIR)%,$(SRCS_ORIG))
+SRCS = ../minimal_rtkpos.c $(patsubst %,$(ORIG_SRC_DIR)%,$(SRCS_ORIG))
 OBJS = $(patsubst %.c,%.o,$(notdir $(SRCS)))
 
 all : $(BUILD_DIR) depend $(PACKAGE)
