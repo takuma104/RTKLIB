@@ -26,6 +26,7 @@ int trace_vprintf(const char *format, va_list ap){
   return res;
 }
 
+#ifdef USE_RINEX_INPUT
 int uncompress(const char *file, char *uncfile){
   const char *p;
   trace(3, "uncompress: file=%s\n", file);
@@ -42,6 +43,7 @@ int uncompress(const char *file, char *uncfile){
   }
   return 0;
 }
+#endif
 #endif
 
 int main(){
@@ -82,11 +84,12 @@ int main(){
 
   rtkinit(&rtk, &opt);
 
-  obsd_t data[MAXOBS * 2];
+  obsd_t obs_data[MAXOBS * 2];
+  memset(obs_data, 0, sizeof(obs_data));
   obs_t obs;
-  obs.n = 0,
-  obs.nmax = sizeof(data) / sizeof(data[0]);
-  obs.data = data;
+  obs.n = 0;
+  obs.nmax = sizeof(obs_data) / sizeof(obs_data[0]);
+  obs.data = obs_data;
 
 #ifdef USE_RINEX_INPUT
   char *t_str[] = {
