@@ -27,7 +27,7 @@ int trace_vprintf(const char *format, va_list ap){
 }
 
 int uncompress(const char *file, char *uncfile){
-  char *p;
+  const char *p;
   trace(3, "uncompress: file=%s\n", file);
   if(!(p = strrchr(file, '.'))){return 0;}
   if(!strcmp(p, ".z")
@@ -83,10 +83,10 @@ int main(){
   rtkinit(&rtk, &opt);
 
   obsd_t data[MAXOBS * 2];
-  obs_t obs = {
-      .n = 0,
-      .nmax = sizeof(data) / sizeof(data[0]),
-      .data = data};
+  obs_t obs;
+  obs.n = 0,
+  obs.nmax = sizeof(data) / sizeof(data[0]);
+  obs.data = data;
 
 #ifdef USE_RINEX_INPUT
   char *t_str[] = {
