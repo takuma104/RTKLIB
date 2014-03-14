@@ -22,7 +22,6 @@ all : $(BUILD_DIR) $(PACKAGE)
 
 # ヘッダーファイルの依存関係 @see http://lists.gnu.org/archive/html/automake/2002-01/msg00155.html
 $(BUILD_DIR)/depend.inc: $(BUILD_DIR) makefile
-	rm -f $(BUILD_DIR)/depend.inc; \
 	for i in $(SRCS); do \
 		$(CXX) -E -MM $(INCLUDES) $(CPPFLAGS) $$i >> tempfile; \
 		if ! [ $$? = 0 ]; then \
@@ -30,7 +29,7 @@ $(BUILD_DIR)/depend.inc: $(BUILD_DIR) makefile
 			exit 1; \
 		fi; \
 	done; \
-	cat tempfile | sed -e 's/^+.*//g' -e 's/[^\.]*\.o/$(BUILD_DIR)\/&/g' >> $(BUILD_DIR)/depend.inc; \
+	cat tempfile | sed -e 's/^+.*//g' -e 's/[^\.]*\.o/$(BUILD_DIR)\/&/g' > $@; \
 	rm -f tempfile
 
 -include $(BUILD_DIR)/depend.inc
