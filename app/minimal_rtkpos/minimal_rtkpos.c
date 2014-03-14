@@ -99,11 +99,11 @@ int main(){
       str2time(t_str[i], 0, strlen(t_str[i]), &t[i]);
     }
   }
-  if(readrnxt("../../../test/data/rinex/07590920.05n", 1, t[0], t[1], 0.0, "", NULL, &nav, NULL) == 0){
+  if(readrnxt("../../../../test/data/rinex/07590920.05n", 1, t[0], t[1], 0.0, "", NULL, &nav, NULL) == 0){
     exit(-1);
   }
   uniqnav(&nav);
-  if(readrnxt("../../../test/data/rinex/07590920.05o", 1, t[2], t[3], 0.0, "", &obs, NULL, NULL) == 0){
+  if(readrnxt("../../../../test/data/rinex/07590920.05o", 1, t[2], t[3], 0.0, "", &obs, NULL, NULL) == 0){
     exit(-1);
   }
   sortobs(&obs);
