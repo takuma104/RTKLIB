@@ -175,7 +175,7 @@ int main(){
       {13, 05, 4, 2, 2, 0, 0.0, -7.071997970340E-06, 1.250555214940E-12, 0.000000000000E+00, 2.030000000000E+02, -6.265625000000E+01, 4.081241566920E-09, -1.395829108190E+00, -3.190711140630E-06, 2.501061768270E-03, 4.086643457410E-06, 5.153751661300E+03, 5.256000000000E+05, 5.587935447690E-09, -2.509149236050E+00, 1.490116119380E-08, 9.875983291150E-01, 3.161875000000E+02, 9.046799773120E-01, -7.977475569020E-09, 2.178662111830E-11, 1.000000000000E+00, 1.316000000000E+03, 0.000000000000E+00, 0.000000000000E+00, 0.000000000000E+00, -1.164153218270E-08, 7.150000000000E+02, 5.244360000000E+05},};
   for(nav.n = 0; nav.n < sizeof(nav_raw) / sizeof(nav_raw[0]); ++nav.n){
     eph_t eph = {0}; ///< @see decode_eph() of rinex.c
-    eph.sat    = nav_raw[nav.n][0];
+    eph.sat    = (int)nav_raw[nav.n][0];
     if(nav_raw[nav.n][1] < 100){nav_raw[nav.n][1] += (nav_raw[nav.n][1] < 80 ? 2000 : 1900);}
     eph.toc    = epoch2time(&nav_raw[nav.n][1]);
     eph.f0     = nav_raw[nav.n][7 +  0];
@@ -242,7 +242,7 @@ int main(){
     if(obs_raw[obs.n][0] < 100){obs_raw[obs.n][0] += (obs_raw[obs.n][0] < 80 ? 2000 : 1900);}
     obs.data[obs.n].time = epoch2time(&obs_raw[obs.n][0]);
     obs.data[obs.n].rcv = 1;
-    obs.data[obs.n].sat = obs_raw[obs.n][7];
+    obs.data[obs.n].sat = (unsigned char)obs_raw[obs.n][7];
     obs.data[obs.n].code[0] = CODE_L1C;
     obs.data[obs.n].code[1] = CODE_L2W;
     obs.data[obs.n].L[0] = obs_raw[obs.n][8];
