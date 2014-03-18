@@ -102,9 +102,11 @@
 #include <dirent.h>
 #endif
 #include <time.h>
+#ifndef WITHOUT_SYSTIME
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#endif
 #endif
 #include "rtklib.h"
 
@@ -1336,6 +1338,7 @@ extern double timediff(gtime_t t1, gtime_t t2)
 {
     return difftime(t1.time,t2.time)+t1.sec-t2.sec;
 }
+#ifndef WITHOUT_SYSTIME
 /* get current time in utc -----------------------------------------------------
 * get current time in utc
 * args   : none
@@ -1375,6 +1378,7 @@ extern void timeset(gtime_t t)
 {
     timeoffset_+=timediff(t,timeget());
 }
+#endif /* WITHOUT_SYSTIME */
 /* gpstime to utc --------------------------------------------------------------
 * convert gpstime to utc considering leap seconds
 * args   : gtime_t t        I   time expressed in gpstime
@@ -1515,6 +1519,7 @@ extern int adjgpsweek(int week)
     if (w<1560) w=1560; /* use 2009/12/1 if time is earlier than 2009/12/1 */
     return week+(w-week+512)/1024*1024;
 }
+#ifndef WITHOUT_SYSTIME
 /* get tick time ---------------------------------------------------------------
 * get current tick in ms
 * args   : none
@@ -1543,6 +1548,7 @@ extern unsigned int tickget(void)
 #endif
 #endif /* WIN32 */
 }
+#endif /* WITHOUT_SYSTIME */
 /* sleep ms --------------------------------------------------------------------
 * sleep ms
 * args   : int   ms         I   miliseconds to sleep (<0:no sleep)

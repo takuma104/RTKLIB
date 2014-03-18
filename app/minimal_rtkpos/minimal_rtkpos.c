@@ -46,6 +46,23 @@ int uncompress(const char *file, char *uncfile){
 #endif
 #endif
 
+#ifdef WITHOUT_SYSTIME
+#include <time.h>
+extern gtime_t timeget(){
+  time_t timer;
+  struct tm *tt;
+  time(&timer);
+  tt = gmtime(&timer);
+  double ep[] = {
+      tt->tm_year + 1900, tt->tm_mon + 1, tt->tm_mday,
+      tt->tm_hour, tt->tm_min, tt->tm_sec};
+  return epoch2time(ep);
+}
+unsigned int tickget(){
+  return clock() * 1000 / CLOCKS_PER_SEC;
+}
+#endif
+
 int main(){
 
   tracelevel(3); //0xF);
