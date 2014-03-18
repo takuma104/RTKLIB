@@ -98,7 +98,9 @@
 #include <stdarg.h>
 #include <ctype.h>
 #ifndef WIN32
+#ifndef WITHOUT_FILE
 #include <dirent.h>
+#endif
 #include <time.h>
 #include <sys/time.h>
 #include <sys/stat.h>
