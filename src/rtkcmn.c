@@ -1548,7 +1548,6 @@ extern unsigned int tickget(void)
 #endif
 #endif /* WIN32 */
 }
-#endif /* WITHOUT_SYSTIME */
 /* sleep ms --------------------------------------------------------------------
 * sleep ms
 * args   : int   ms         I   miliseconds to sleep (<0:no sleep)
@@ -1566,6 +1565,7 @@ extern void sleepms(int ms)
     nanosleep(&ts,NULL);
 #endif
 }
+#endif /* WITHOUT_SYSTIME */
 /* convert degree to deg-min-sec -----------------------------------------------
 * convert degree to degree-minute-second
 * args   : double deg       I   degree
