@@ -372,7 +372,7 @@ static double interppol(const double *x, double *y, int n)
 static int pephpos(gtime_t time, int sat, const nav_t *nav, double *rs,
                    double *dts, double *vare, double *varc)
 {
-    double t[NMAX+1],p[3][NMAX+1],c[2],*pos,std=0.0,s[3],sinl,cosl;
+    double t[NMAX+1],p[3][NMAX+1],c[2],*pos,std=0.0,s[3],sinlmb,coslmb;
     int i,j,k,index;
     
     trace(4,"pephpos : time=%s sat=%2d\n",time_str(time,3),sat);
@@ -410,10 +410,10 @@ static int pephpos(gtime_t time, int sat, const nav_t *nav, double *rs,
         p[1][j]=pos[1];
 #else
         /* correciton for earh rotation ver.2.4.0 */
-        sinl=sin(OMGE*t[j]);
-        cosl=cos(OMGE*t[j]);
-        p[0][j]=cosl*pos[0]-sinl*pos[1];
-        p[1][j]=sinl*pos[0]+cosl*pos[1];
+        sinlmb=sin(OMGE*t[j]);
+        coslmb=cos(OMGE*t[j]);
+        p[0][j]=coslmb*pos[0]-sinlmb*pos[1];
+        p[1][j]=sinlmb*pos[0]+coslmb*pos[1];
 #endif
         p[2][j]=pos[2];
     }

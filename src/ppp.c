@@ -154,7 +154,7 @@ static void tide_pl(const double *eu, const double *rp, double GMp,
                     const double *pos, double *dr)
 {
     const double H3=0.292,L3=0.015;
-    double r,ep[3],latp,lonp,p,K2,K3,a,H2,L2,dp,du,cosp,sinl,cosl;
+    double r,ep[3],latp,lonp,p,K2,K3,a,H2,L2,dp,du,cosphi,sinlmb,coslmb;
     int i;
     
     trace(4,"tide_pl : pos=%.3f %.3f\n",pos[0]*R2D,pos[1]*R2D);
@@ -166,10 +166,10 @@ static void tide_pl(const double *eu, const double *rp, double GMp,
     K2=GMp/GME*SQR(RE_WGS84)*SQR(RE_WGS84)/(r*r*r);
     K3=K2*RE_WGS84/r;
     latp=asin(ep[2]); lonp=atan2(ep[1],ep[0]);
-    cosp=cos(latp); sinl=sin(pos[0]); cosl=cos(pos[0]);
+    cosphi=cos(latp); sinlmb=sin(pos[0]); coslmb=cos(pos[0]);
     
     /* step1 in phase (degree 2) */
-    p=(3.0*sinl*sinl-1.0)/2.0;
+    p=(3.0*sinlmb*sinlmb-1.0)/2.0;
     H2=0.6078-0.0006*p;
     L2=0.0847+0.0002*p;
     a=dot(ep,eu,3);
@@ -182,7 +182,7 @@ static void tide_pl(const double *eu, const double *rp, double GMp,
     
     /* step1 out-of-phase (only radial) */
     du+=3.0/4.0*0.0025*K2*sin(2.0*latp)*sin(2.0*pos[0])*sin(pos[1]-lonp);
-    du+=3.0/4.0*0.0022*K2*cosp*cosp*cosl*cosl*sin(2.0*(pos[1]-lonp));
+    du+=3.0/4.0*0.0022*K2*cosphi*cosphi*coslmb*coslmb*sin(2.0*(pos[1]-lonp));
     
     dr[0]=dp*ep[0]+du*eu[0];
     dr[1]=dp*ep[1]+du*eu[1];
@@ -195,7 +195,7 @@ static void tide_solid(const double *rsun, const double *rmoon,
                        const double *pos, const double *E, double gmst, int opt,
                        double *dr)
 {
-    double dr1[3],dr2[3],eu[3],du,dn,sinl,sin2l;
+    double dr1[3],dr2[3],eu[3],du,dn,sinlmb,sin2l;
     
     trace(3,"tide_solid: pos=%.3f %.3f opt=%d\n",pos[0]*R2D,pos[1]*R2D,opt);
     
@@ -214,8 +214,8 @@ static void tide_solid(const double *rsun, const double *rmoon,
     
     /* eliminate permanent deformation */
     if (opt&8) {
-        sinl=sin(pos[0]); 
-        du=0.1196*(1.5*sinl*sinl-0.5);
+        sinlmb=sin(pos[0]); 
+        du=0.1196*(1.5*sinlmb*sinlmb-0.5);
         dn=0.0247*sin2l;        dr[0]+=du*E[2]+dn*E[1];
         dr[1]+=du*E[5]+dn*E[4];
         dr[2]+=du*E[8]+dn*E[7];
@@ -292,7 +292,7 @@ static void iers_mean_pole(gtime_t tut, double *xp_bar, double *yp_bar)
 static void tide_pole(gtime_t tut, const double *pos, const double *erpv,
                       double *denu)
 {
-    double xp_bar,yp_bar,m1,m2,cosl,sinl;
+    double xp_bar,yp_bar,m1,m2,coslmb,sinlmb;
     
     trace(3,"tide_pole: pos=%.3f %.3f\n",pos[0]*R2D,pos[1]*R2D);
     
@@ -303,11 +303,11 @@ static void tide_pole(gtime_t tut, const double *pos, const double *erpv,
     m2=-erpv[1]/AS2R-yp_bar*1E-3;
     
     /* sin(2*theta) = sin(2*phi), cos(2*theta)=-cos(2*phi) */
-    cosl=cos(pos[1]);
-    sinl=sin(pos[1]);
-    denu[0]=  9E-3*sin(pos[0])    *(m1*sinl-m2*cosl); /* de= Slambda (m) */
-    denu[1]= -9E-3*cos(2.0*pos[0])*(m1*cosl+m2*sinl); /* dn=-Stheta  (m) */
-    denu[2]=-33E-3*sin(2.0*pos[0])*(m1*cosl+m2*sinl); /* du= Sr      (m) */
+    coslmb=cos(pos[1]);
+    sinlmb=sin(pos[1]);
+    denu[0]=  9E-3*sin(pos[0])    *(m1*sinlmb-m2*coslmb); /* de= Slambda (m) */
+    denu[1]= -9E-3*cos(2.0*pos[0])*(m1*coslmb+m2*sinlmb); /* dn=-Stheta  (m) */
+    denu[2]=-33E-3*sin(2.0*pos[0])*(m1*coslmb+m2*sinlmb); /* du= Sr      (m) */
     
     trace(5,"tide_pole : denu=%.3f %.3f %.3f\n",denu[0],denu[1],denu[2]);
 }

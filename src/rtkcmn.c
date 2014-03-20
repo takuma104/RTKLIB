@@ -1598,13 +1598,13 @@ extern double dms2deg(const double *dms)
 *-----------------------------------------------------------------------------*/
 extern void ecef2pos(const double *r, double *pos)
 {
-    double e2=FE_WGS84*(2.0-FE_WGS84),r2=dot(r,r,2),z,zk,v=RE_WGS84,sinp;
+    double e2=FE_WGS84*(2.0-FE_WGS84),r2=dot(r,r,2),z,zk,v=RE_WGS84,sinphi;
     
     for (z=r[2],zk=0.0;fabs(z-zk)>=1E-4;) {
         zk=z;
-        sinp=z/sqrt(r2+z*z);
-        v=RE_WGS84/sqrt(1.0-e2*sinp*sinp);
-        z=r[2]+v*e2*sinp;
+        sinphi=z/sqrt(r2+z*z);
+        v=RE_WGS84/sqrt(1.0-e2*sinphi*sinphi);
+        z=r[2]+v*e2*sinphi;
     }
     pos[0]=r2>1E-12?atan(z/sqrt(r2)):(r[2]>0.0?PI/2.0:-PI/2.0);
     pos[1]=r2>1E-12?atan2(r[1],r[0]):0.0;
@@ -1619,12 +1619,12 @@ extern void ecef2pos(const double *r, double *pos)
 *-----------------------------------------------------------------------------*/
 extern void pos2ecef(const double *pos, double *r)
 {
-    double sinp=sin(pos[0]),cosp=cos(pos[0]),sinl=sin(pos[1]),cosl=cos(pos[1]);
-    double e2=FE_WGS84*(2.0-FE_WGS84),v=RE_WGS84/sqrt(1.0-e2*sinp*sinp);
+    double sinphi=sin(pos[0]),cosphi=cos(pos[0]),sinlmb=sin(pos[1]),coslmb=cos(pos[1]);
+    double e2=FE_WGS84*(2.0-FE_WGS84),v=RE_WGS84/sqrt(1.0-e2*sinphi*sinphi);
     
-    r[0]=(v+pos[2])*cosp*cosl;
-    r[1]=(v+pos[2])*cosp*sinl;
-    r[2]=(v*(1.0-e2)+pos[2])*sinp;
+    r[0]=(v+pos[2])*cosphi*coslmb;
+    r[1]=(v+pos[2])*cosphi*sinlmb;
+    r[2]=(v*(1.0-e2)+pos[2])*sinphi;
 }
 /* ecef to local coordinate transfromation matrix ------------------------------
 * compute ecef to local coordinate transfromation matrix
@@ -1635,11 +1635,11 @@ extern void pos2ecef(const double *pos, double *r)
 *-----------------------------------------------------------------------------*/
 extern void xyz2enu(const double *pos, double *E)
 {
-    double sinp=sin(pos[0]),cosp=cos(pos[0]),sinl=sin(pos[1]),cosl=cos(pos[1]);
+    double sinphi=sin(pos[0]),cosphi=cos(pos[0]),sinlmb=sin(pos[1]),coslmb=cos(pos[1]);
     
-    E[0]=-sinl;      E[3]=cosl;       E[6]=0.0;
-    E[1]=-sinp*cosl; E[4]=-sinp*sinl; E[7]=cosp;
-    E[2]=cosp*cosl;  E[5]=cosp*sinl;  E[8]=sinp;
+    E[0]=-sinlmb;      E[3]=coslmb;       E[6]=0.0;
+    E[1]=-sinphi*coslmb; E[4]=-sinphi*sinlmb; E[7]=cosphi;
+    E[2]=cosphi*coslmb;  E[5]=cosphi*sinlmb;  E[8]=sinphi;
 }
 /* transform ecef vector to local tangental coordinate -------------------------
 * transform ecef vector to local tangental coordinate
@@ -3495,7 +3495,7 @@ extern void antmodel_s(const pcv_t *pcv, double nadir, double *dant)
 static void sunmoonpos_eci(gtime_t tut, double *rsun, double *rmoon)
 {
     const double ep2000[]={2000,1,1,12,0,0};
-    double t,f[5],eps,Ms,ls,rs,lm,pm,rm,sine,cose,sinp,cosp,sinl,cosl;
+    double t,f[5],eps,Ms,ls,rs,lm,pm,rm,sine,cose,sinphi,cosphi,sinlmb,coslmb;
     
     trace(3,"sunmoonpos_eci: tut=%s\n",time_str(tut,3));
     
@@ -3513,10 +3513,10 @@ static void sunmoonpos_eci(gtime_t tut, double *rsun, double *rmoon)
         Ms=357.5277233+35999.05034*t;
         ls=280.460+36000.770*t+1.914666471*sin(Ms*D2R)+0.019994643*sin(2.0*Ms*D2R);
         rs=AU*(1.000140612-0.016708617*cos(Ms*D2R)-0.000139589*cos(2.0*Ms*D2R));
-        sinl=sin(ls*D2R); cosl=cos(ls*D2R);
-        rsun[0]=rs*cosl;
-        rsun[1]=rs*cose*sinl;
-        rsun[2]=rs*sine*sinl;
+        sinlmb=sin(ls*D2R); coslmb=cos(ls*D2R);
+        rsun[0]=rs*coslmb;
+        rsun[1]=rs*cose*sinlmb;
+        rsun[2]=rs*sine*sinlmb;
         
         trace(5,"rsun =%.3f %.3f %.3f\n",rsun[0],rsun[1],rsun[2]);
     }
@@ -3528,11 +3528,11 @@ static void sunmoonpos_eci(gtime_t tut, double *rsun, double *rmoon)
            0.17*sin(f[2]-2.0*f[3]);
         rm=RE_WGS84/sin((0.9508+0.0518*cos(f[0])+0.0095*cos(f[0]-2.0*f[3])+
                    0.0078*cos(2.0*f[3])+0.0028*cos(2.0*f[0]))*D2R);
-        sinl=sin(lm*D2R); cosl=cos(lm*D2R);
-        sinp=sin(pm*D2R); cosp=cos(pm*D2R);
-        rmoon[0]=rm*cosp*cosl;
-        rmoon[1]=rm*(cose*cosp*sinl-sine*sinp);
-        rmoon[2]=rm*(sine*cosp*sinl+cose*sinp);
+        sinlmb=sin(lm*D2R); coslmb=cos(lm*D2R);
+        sinphi=sin(pm*D2R); cosphi=cos(pm*D2R);
+        rmoon[0]=rm*cosphi*coslmb;
+        rmoon[1]=rm*(cose*cosphi*sinlmb-sine*sinphi);
+        rmoon[2]=rm*(sine*cosphi*sinlmb+cose*sinphi);
         
         trace(5,"rmoon=%.3f %.3f %.3f\n",rmoon[0],rmoon[1],rmoon[2]);
     }
@@ -3582,7 +3582,7 @@ extern void windupcorr(gtime_t time, const double *rs, const double *rr,
                        double *phw)
 {
     double ek[3],exs[3],eys[3],ezs[3],ess[3],exr[3],eyr[3],eks[3],ekr[3],E[9];
-    double dr[3],ds[3],drs[3],r[3],pos[3],rsun[3],cosp,ph,erpv[5]={0};
+    double dr[3],ds[3],drs[3],r[3],pos[3],rsun[3],cosphi,ph,erpv[5]={0};
     int i;
     
     trace(4,"windupcorr: time=%s\n",time_str(time,0));
@@ -3616,10 +3616,10 @@ extern void windupcorr(gtime_t time, const double *rs, const double *rr,
         ds[i]=exs[i]-ek[i]*dot(ek,exs,3)-eks[i];
         dr[i]=exr[i]-ek[i]*dot(ek,exr,3)+ekr[i];
     }
-    cosp=dot(ds,dr,3)/norm(ds,3)/norm(dr,3);
-    if      (cosp<-1.0) cosp=-1.0;
-    else if (cosp> 1.0) cosp= 1.0;
-    ph=acos(cosp)/2.0/PI;
+    cosphi=dot(ds,dr,3)/norm(ds,3)/norm(dr,3);
+    if      (cosphi<-1.0) cosphi=-1.0;
+    else if (cosphi> 1.0) cosphi= 1.0;
+    ph=acos(cosphi)/2.0/PI;
     cross3(ds,dr,drs);
     if (dot(ek,drs,3)<0.0) ph=-ph;
     

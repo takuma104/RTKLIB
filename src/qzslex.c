@@ -604,7 +604,7 @@ extern int lexioncorr(gtime_t time, const nav_t *nav, const double *pos,
     const double dl1=(141.0-129.0)/(45.5-34.7);
     const double dl2=(129.0-126.7)/(34.7-26.0);
 #endif
-    double tt,sinlat,coslat,sinaz,cosaz,cosel,rp,ap,sinap,cosap,latpp,lonpp;
+    double tt,sinlmbat,coslmbat,sinaz,cosaz,cosel,rp,ap,sinap,cosap,latpp,lonpp;
     double dlat,dlon,Enm,F;
     int n,m;
     
@@ -633,8 +633,8 @@ extern int lexioncorr(gtime_t time, const nav_t *nav, const double *pos,
     }
 #endif
     /* ionospheric pierce point position */
-    sinlat=sin(pos[0]);
-    coslat=cos(pos[0]);
+    sinlmbat=sin(pos[0]);
+    coslmbat=cos(pos[0]);
     sinaz=sin(azel[0]);
     cosaz=cos(azel[0]);
     cosel=cos(azel[1]);
@@ -642,8 +642,8 @@ extern int lexioncorr(gtime_t time, const nav_t *nav, const double *pos,
     ap=PI/2.0-azel[1]-asin(rp);
     sinap=sin(ap);
     cosap=cos(ap);
-    latpp=asin(sinlat*cosap+coslat*sinap*cosaz);
-    lonpp=pos[1]+atan(sinap*sinaz/(cosap*coslat-sinap*cosaz*sinlat));
+    latpp=asin(sinlmbat*cosap+coslmbat*sinap*cosaz);
+    lonpp=pos[1]+atan(sinap*sinaz/(cosap*coslmbat-sinap*cosaz*sinlmbat));
     
     trace(4,"lexioncorr: pppos=%.3f %.3f\n",latpp*R2D,lonpp*R2D);
     
