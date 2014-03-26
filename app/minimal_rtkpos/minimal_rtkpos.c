@@ -99,6 +99,8 @@ int main(){
   opt.mode = PMODE_PPP_KINEMA; // PMODE_SINGLE;
   opt.dynamics = 1;
   opt.modear = ARMODE_PPPAR;
+  opt.nf = 2;
+  opt.ionoopt = IONOOPT_IFLC;
 
   rtkinit(&rtk, &opt);
 
