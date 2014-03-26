@@ -98,6 +98,7 @@ int main(){
   prcopt_t opt = prcopt_default;
   opt.mode = PMODE_PPP_KINEMA; // PMODE_SINGLE;
   opt.dynamics = 1;
+  opt.modear = ARMODE_PPPAR;
 
   rtkinit(&rtk, &opt);
 
@@ -265,7 +266,7 @@ int main(){
   }else{
     // precise point positioning
     if(rtkpos(&rtk, obs.data, obs.n, &nav)){
-      pos_mode = "rtkpos";
+      pos_mode = (rtk.sol.stat == SOLQ_FIX) ? "rtkpos(fix)" : "rtkpos";
       x = rtk.x;
     }
   }
