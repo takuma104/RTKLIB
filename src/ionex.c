@@ -43,6 +43,7 @@ static int dataindex(int i, int j, int k, const int *ndata)
     if (i<0||ndata[0]<=i||j<0||ndata[1]<=j||k<0||ndata[2]<=k) return -1;
     return i+ndata[0]*(j+ndata[1]*k);
 }
+#ifndef WITHOUT_FILE
 /* add tec data to navigation data -------------------------------------------*/
 static tec_t *addtec(const double *lats, const double *lons, const double *hgts,
                      double rb, nav_t *nav)
@@ -89,7 +90,6 @@ static tec_t *addtec(const double *lats, const double *lons, const double *hgts,
     nav->nt++;
     return p;
 }
-#ifndef WITHOUT_FILE
 /* read ionex dcb aux data ----------------------------------------------------*/
 static void readionexdcb(FILE *fp, double *dcb, double *rms)
 {
@@ -237,7 +237,6 @@ static int readionexb(FILE *fp, const double *lats, const double *lons,
     }
     return 1;
 }
-#endif /* #ifndef WITHOUT_FILE */
 /* combine tec grid data -----------------------------------------------------*/
 static void combtec(nav_t *nav)
 {
@@ -268,7 +267,6 @@ static void combtec(nav_t *nav)
     
     trace(4,"combtec : nav->nt=%d\n",nav->nt);
 }
-#ifndef WITHOUT_FILE
 /* read ionex tec grid file ----------------------------------------------------
 * read ionex ionospheric tec grid file
 * args   : char   *file       I   ionex tec grid file
