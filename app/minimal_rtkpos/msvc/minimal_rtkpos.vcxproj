@@ -51,6 +51,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;WITHOUT_THREAD;WITHOUT_FILE;WITHOUT_SYSTIME;TRACE;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;WITHOUT_THREAD;WITHOUT_FILE;TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
