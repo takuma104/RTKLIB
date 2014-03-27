@@ -89,9 +89,7 @@ int main(){
   prcopt_t opt = prcopt_default;
   opt.mode = PMODE_SINGLE;
   opt.dynamics = 1;
-  opt.modear = ARMODE_PPPAR;
   opt.nf = 2;
-  opt.ionoopt = IONOOPT_IFLC;
 
   obsd_t obs_data[MAXOBS * 2];
   memset(obs_data, 0, sizeof(obs_data));
