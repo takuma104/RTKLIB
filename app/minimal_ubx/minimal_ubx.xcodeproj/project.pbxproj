@@ -1,0 +1,295 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F11172D418E68C4000398C8E /* rcvraw.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D318E68C4000398C8E /* rcvraw.c */; };
+		F11172D718E68C5600398C8E /* sbas.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D618E68C5600398C8E /* sbas.c */; };
+		F11172D918E68C6200398C8E /* ublox.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D818E68C6200398C8E /* ublox.c */; };
+		F11172DE18E68C7400398C8E /* ephemeris.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DA18E68C7400398C8E /* ephemeris.c */; };
+		F11172DF18E68C7400398C8E /* ionex.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DB18E68C7400398C8E /* ionex.c */; };
+		F11172E018E68C7400398C8E /* pntpos.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DC18E68C7400398C8E /* pntpos.c */; };
+		F11172E118E68C7400398C8E /* preceph.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DD18E68C7400398C8E /* preceph.c */; };
+		F11172E318E6941F00398C8E /* rtkcmn.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172E218E6941F00398C8E /* rtkcmn.c */; };
+		F15B6E1118E69F82000C4274 /* minimal_ubx.c in Sources */ = {isa = PBXBuildFile; fileRef = F15B6E1018E69F82000C4274 /* minimal_ubx.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F11172C418E68BF800398C8E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F11172C618E68BF800398C8E /* minimal_ubx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = minimal_ubx; sourceTree = BUILT_PRODUCTS_DIR; };
+		F11172D318E68C4000398C8E /* rcvraw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rcvraw.c; path = ../../../src/rcvraw.c; sourceTree = "<group>"; };
+		F11172D518E68C4C00398C8E /* rtklib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = rtklib.h; path = ../../../src/rtklib.h; sourceTree = "<group>"; };
+		F11172D618E68C5600398C8E /* sbas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbas.c; path = ../../../src/sbas.c; sourceTree = "<group>"; };
+		F11172D818E68C6200398C8E /* ublox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ublox.c; path = ../../../src/rcv/ublox.c; sourceTree = "<group>"; };
+		F11172DA18E68C7400398C8E /* ephemeris.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ephemeris.c; path = ../../../src/ephemeris.c; sourceTree = "<group>"; };
+		F11172DB18E68C7400398C8E /* ionex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ionex.c; path = ../../../src/ionex.c; sourceTree = "<group>"; };
+		F11172DC18E68C7400398C8E /* pntpos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pntpos.c; path = ../../../src/pntpos.c; sourceTree = "<group>"; };
+		F11172DD18E68C7400398C8E /* preceph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = preceph.c; path = ../../../src/preceph.c; sourceTree = "<group>"; };
+		F11172E218E6941F00398C8E /* rtkcmn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rtkcmn.c; path = ../../../src/rtkcmn.c; sourceTree = "<group>"; };
+		F15B6E1018E69F82000C4274 /* minimal_ubx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minimal_ubx.c; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F11172C318E68BF800398C8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F11172BD18E68BF800398C8E = {
+			isa = PBXGroup;
+			children = (
+				F11172C818E68BF800398C8E /* minimal_ubx */,
+				F11172C718E68BF800398C8E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F11172C718E68BF800398C8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F11172C618E68BF800398C8E /* minimal_ubx */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F11172C818E68BF800398C8E /* minimal_ubx */ = {
+			isa = PBXGroup;
+			children = (
+				F15B6E1018E69F82000C4274 /* minimal_ubx.c */,
+				F11172D218E68C3300398C8E /* RTKLIB */,
+			);
+			path = minimal_ubx;
+			sourceTree = "<group>";
+		};
+		F11172D218E68C3300398C8E /* RTKLIB */ = {
+			isa = PBXGroup;
+			children = (
+				F11172D518E68C4C00398C8E /* rtklib.h */,
+				F11172E218E6941F00398C8E /* rtkcmn.c */,
+				F11172DA18E68C7400398C8E /* ephemeris.c */,
+				F11172DB18E68C7400398C8E /* ionex.c */,
+				F11172DC18E68C7400398C8E /* pntpos.c */,
+				F11172DD18E68C7400398C8E /* preceph.c */,
+				F11172D818E68C6200398C8E /* ublox.c */,
+				F11172D618E68C5600398C8E /* sbas.c */,
+				F11172D318E68C4000398C8E /* rcvraw.c */,
+			);
+			name = RTKLIB;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F11172C518E68BF800398C8E /* minimal_ubx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F11172CF18E68BF800398C8E /* Build configuration list for PBXNativeTarget "minimal_ubx" */;
+			buildPhases = (
+				F11172C218E68BF800398C8E /* Sources */,
+				F11172C318E68BF800398C8E /* Frameworks */,
+				F11172C418E68BF800398C8E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = minimal_ubx;
+			productName = minimal_ubx;
+			productReference = F11172C618E68BF800398C8E /* minimal_ubx */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F11172BE18E68BF800398C8E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = takumamori;
+			};
+			buildConfigurationList = F11172C118E68BF800398C8E /* Build configuration list for PBXProject "minimal_ubx" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F11172BD18E68BF800398C8E;
+			productRefGroup = F11172C718E68BF800398C8E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F11172C518E68BF800398C8E /* minimal_ubx */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F11172C218E68BF800398C8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F11172D718E68C5600398C8E /* sbas.c in Sources */,
+				F11172E118E68C7400398C8E /* preceph.c in Sources */,
+				F11172DE18E68C7400398C8E /* ephemeris.c in Sources */,
+				F15B6E1118E69F82000C4274 /* minimal_ubx.c in Sources */,
+				F11172D418E68C4000398C8E /* rcvraw.c in Sources */,
+				F11172E318E6941F00398C8E /* rtkcmn.c in Sources */,
+				F11172E018E68C7400398C8E /* pntpos.c in Sources */,
+				F11172DF18E68C7400398C8E /* ionex.c in Sources */,
+				F11172D918E68C6200398C8E /* ublox.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F11172CD18E68BF800398C8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F11172CE18E68BF800398C8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F11172D018E68BF800398C8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = (
+					"-DTRACE",
+					"-DWITHOUT_FILE",
+					"-DWITHOUT_SYSTIME",
+					"-DWITHOUT_THREAD",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../src;
+			};
+			name = Debug;
+		};
+		F11172D118E68BF800398C8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libstdc++";
+				GCC_C_LANGUAGE_STANDARD = ansi;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CFLAGS = (
+					"-DTRACE",
+					"-DWITHOUT_FILE",
+					"-DWITHOUT_SYSTIME",
+					"-DWITHOUT_THREAD",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../src;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F11172C118E68BF800398C8E /* Build configuration list for PBXProject "minimal_ubx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F11172CD18E68BF800398C8E /* Debug */,
+				F11172CE18E68BF800398C8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F11172CF18E68BF800398C8E /* Build configuration list for PBXNativeTarget "minimal_ubx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F11172D018E68BF800398C8E /* Debug */,
+				F11172D118E68BF800398C8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F11172BE18E68BF800398C8E /* Project object */;
+}

@@ -266,7 +266,10 @@ extern int decode_frame(const unsigned char *buff, eph_t *eph, alm_t *alm,
 *-----------------------------------------------------------------------------*/
 extern int init_raw(raw_t *raw)
 {
-    const double lam_glo[NFREQ]={CLIGHT/FREQ1_GLO,CLIGHT/FREQ2_GLO};
+    const double lam_carr[]={       /* carrier wave length (m) */
+        CLIGHT/FREQ1,CLIGHT/FREQ2,CLIGHT/FREQ5,CLIGHT/FREQ6,CLIGHT/FREQ7,CLIGHT/FREQ8
+    };
+   const double lam_glo[NFREQ]={CLIGHT/FREQ1_GLO,CLIGHT/FREQ2_GLO};
     gtime_t time0={0};
     obsd_t data0={{0}};
     eph_t  eph0 ={0,-1,-1};
@@ -330,7 +333,7 @@ extern int init_raw(raw_t *raw)
       switch(satsys(i+1,NULL)){
         case SYS_NONE: continue;
         case SYS_GLO: memcpy(raw->nav.lam[i], lam_glo, sizeof(lam_glo)); break;
-        default: memcpy(raw->nav[i], lam_carr, sizeof(lam_carr)); break;
+        default: memcpy(raw->nav.lam[i], lam_carr, sizeof(lam_carr)); break;
       }
     }
     raw->sta.name[0]=raw->sta.marker[0]='\0';
@@ -373,9 +376,12 @@ extern int input_raw(raw_t *raw, int format, unsigned char data)
     trace(5,"input_raw: format=%d data=0x%02x\n",format,data);
     
     switch (format) {
+/*
         case STRFMT_OEM4 : return input_oem4 (raw,data);
         case STRFMT_OEM3 : return input_oem3 (raw,data);
+*/
         case STRFMT_UBX  : return input_ubx  (raw,data);
+/*
         case STRFMT_SS2  : return input_ss2  (raw,data);
         case STRFMT_CRES : return input_cres (raw,data);
         case STRFMT_STQ  : return input_stq  (raw,data);
@@ -384,6 +390,7 @@ extern int input_raw(raw_t *raw, int format, unsigned char data)
         case STRFMT_NVS  : return input_nvs  (raw,data);
         case STRFMT_BINEX: return input_bnx  (raw,data);
         case STRFMT_LEXR : return input_lexr (raw,data);
+*/
     }
     return 0;
 }
@@ -399,9 +406,12 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
     trace(4,"input_rawf: format=%d\n",format);
     
     switch (format) {
+/*
         case STRFMT_OEM4 : return input_oem4f (raw,fp);
         case STRFMT_OEM3 : return input_oem3f (raw,fp);
+*/
         case STRFMT_UBX  : return input_ubxf  (raw,fp);
+/*        
         case STRFMT_SS2  : return input_ss2f  (raw,fp);
         case STRFMT_CRES : return input_cresf (raw,fp);
         case STRFMT_STQ  : return input_stqf  (raw,fp);
@@ -410,6 +420,7 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
         case STRFMT_NVS  : return input_nvsf  (raw,fp);
         case STRFMT_BINEX: return input_bnxf  (raw,fp);
         case STRFMT_LEXR : return input_lexrf (raw,fp);
+*/
     }
     return -2;
 }

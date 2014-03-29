@@ -151,9 +151,11 @@ const double chisqr[100]={      /* chi-sqr(n) (alpha=0.001) */
     126 ,127 ,128 ,129 ,131 ,132 ,133 ,134 ,135 ,137 ,
     138 ,139 ,140 ,142 ,143 ,144 ,145 ,147 ,148 ,149
 };
+// move
 const double lam_carr[]={       /* carrier wave length (m) */
     CLIGHT/FREQ1,CLIGHT/FREQ2,CLIGHT/FREQ5,CLIGHT/FREQ6,CLIGHT/FREQ7,CLIGHT/FREQ8
 };
+
 const prcopt_t prcopt_default={ /* defaults processing options */
     PMODE_SINGLE,0,2,SYS_GPS,   /* mode,soltype,nf,navsys */
     15.0*D2R,{{0,0}},           /* elmin,snrmask */

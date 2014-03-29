@@ -34,6 +34,13 @@
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
+
+#if defined(__APPLE__)
+/* avoid confrict to standard library on OSX */
+#define trace           __trace
+#define filter          __filter
+#endif
+
 #ifndef WITHOUT_THREAD
 #ifdef WIN32
 #include <winsock2.h>
