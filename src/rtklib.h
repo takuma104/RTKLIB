@@ -193,7 +193,7 @@ extern "C" {
 #define MAXSAT      (NSATGPS+NSATGLO+NSATGAL+NSATQZS+NSATCMP+NSATSBS)
                                         /* max satellite number (1 to MAXSAT) */
 #ifndef MAXOBS
-#define MAXOBS      64                  /* max number of obs in an epoch */
+#define MAXOBS      12                  /* max number of obs in an epoch */
 #endif
 #define MAXRCV      64                  /* max receiver number (1 to MAXRCV) */
 #define MAXOBSTYPE  64                  /* max number of obs type in RINEX */
@@ -1261,10 +1261,16 @@ extern void setcodepri(int sys, int freq, const char *pri);
 extern int  getcodepri(int sys, unsigned char code, const char *opt);
 
 /* matrix and vector functions -----------------------------------------------*/
-extern double *mat  (int n, int m);
-extern int    *imat (int n, int m);
-extern double *zeros(int n, int m);
-extern double *eye  (int n);
+
+/* use stack memory with alloca() instead of heap memory */
+#define mat(n,m)            ((double *)alloca(sizeof(double)*n*m))
+#define imat(n,m)           ((int *)alloca(sizeof(int)*n*m))
+#define zeros(n,m)          (zeros_helper(mat(n,m),n,m))
+#define eye(n)              (eye_helper(mat(n,n),n))
+
+extern double *zeros_helper(double *p, int n, int m);
+extern double *eye_helper(double *p, int n);
+
 extern double dot (const double *a, const double *b, int n);
 extern double norm(const double *a, int n);
 extern void cross3(const double *a, const double *b, double *c);

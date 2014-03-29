@@ -6,8 +6,7 @@ SRC    = ../../../src
 # for beagleboard
 #CTARGET= -mfpu=neon -mfloat-abi=softfp -ffast-math
 #CTARGET = -DENAGLO -DENAGAL -DENAQZS -DNFREQ=3
-CTARGET = -DENAGLO -DENAGAL -DNFREQ=3
-CTARGET += -DWITHOUT_FILE -DWITHOUT_THREAD -DWITHOUT_SYSTIME
+CTARGET = -DWITHOUT_FILE -DWITHOUT_THREAD -DWITHOUT_SYSTIME
 
 CFLAGS = -Wall -O3 -ansi -pedantic -I$(SRC) -DTRACE $(CTARGET)
 #LDLIBS  = -lm -lrt -lpthread

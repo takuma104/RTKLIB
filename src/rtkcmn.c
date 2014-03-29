@@ -709,68 +709,19 @@ extern int decode_word(unsigned int word, unsigned char *data)
     for (i=0;i<3;i++) data[i]=(unsigned char)(word>>(22-i*8));
     return 1;
 }
-/* new matrix ------------------------------------------------------------------
-* allocate memory of matrix 
-* args   : int    n,m       I   number of rows and columns of matrix
-* return : matrix pointer (if n<=0 or m<=0, return NULL)
-*-----------------------------------------------------------------------------*/
-extern double *mat(int n, int m)
-{
-    double *p;
-    
-    if (n<=0||m<=0) return NULL;
-    if (!(p=(double *)malloc(sizeof(double)*n*m))) {
-        fatalerr("matrix memory allocation error: n=%d,m=%d\n",n,m);
-    }
+
+extern double *zeros_helper(double *p, int n, int m) {
+    for (n=n*m-1;n>=0;n--) p[n]=0.0;
     return p;
 }
-/* new integer matrix ----------------------------------------------------------
-* allocate memory of integer matrix 
-* args   : int    n,m       I   number of rows and columns of matrix
-* return : matrix pointer (if n<=0 or m<=0, return NULL)
-*-----------------------------------------------------------------------------*/
-extern int *imat(int n, int m)
-{
-    int *p;
-    
-    if (n<=0||m<=0) return NULL;
-    if (!(p=(int *)malloc(sizeof(int)*n*m))) {
-        fatalerr("integer matrix memory allocation error: n=%d,m=%d\n",n,m);
-    }
-    return p;
-}
-/* zero matrix -----------------------------------------------------------------
-* generate new zero matrix
-* args   : int    n,m       I   number of rows and columns of matrix
-* return : matrix pointer (if n<=0 or m<=0, return NULL)
-*-----------------------------------------------------------------------------*/
-extern double *zeros(int n, int m)
-{
-    double *p;
-    
-#if NOCALLOC
-    if ((p=mat(n,m))) for (n=n*m-1;n>=0;n--) p[n]=0.0;
-#else
-    if (n<=0||m<=0) return NULL;
-    if (!(p=(double *)calloc(sizeof(double),n*m))) {
-        fatalerr("matrix memory allocation error: n=%d,m=%d\n",n,m);
-    }
-#endif
-    return p;
-}
-/* identity matrix -------------------------------------------------------------
-* generate new identity matrix
-* args   : int    n         I   number of rows and columns of matrix
-* return : matrix pointer (if n<=0, return NULL)
-*-----------------------------------------------------------------------------*/
-extern double *eye(int n)
-{
-    double *p;
+
+extern double *eye_helper(double *p, int n) {
     int i;
-    
-    if ((p=zeros(n,n))) for (i=0;i<n;i++) p[i+i*n]=1.0;
+    zeros_helper(p, n, n);
+    for (i=0;i<n;i++) p[i+i*n]=1.0;
     return p;
 }
+
 /* inner product ---------------------------------------------------------------
 * inner product of vectors
 * args   : double *a,*b     I   vector a,b (n x 1)
@@ -925,7 +876,7 @@ static int ludcmp(double *A, int n, int *indx, double *d)
     *d=1.0;
     for (i=0;i<n;i++) {
         big=0.0; for (j=0;j<n;j++) if ((tmp=fabs(A[i+j*n]))>big) big=tmp;
-        if (big>0.0) vv[i]=1.0/big; else {free(vv); return -1;}
+        if (big>0.0) vv[i]=1.0/big; else { return -1;}
     }
     for (j=0;j<n;j++) {
         for (i=0;i<j;i++) {
@@ -943,12 +894,11 @@ static int ludcmp(double *A, int n, int *indx, double *d)
             *d=-(*d); vv[imax]=vv[j];
         }
         indx[j]=imax;
-        if (A[j+j*n]==0.0) {free(vv); return -1;}
+        if (A[j+j*n]==0.0) { return -1;}
         if (j!=n-1) {
             tmp=1.0/A[j+j*n]; for (i=j+1;i<n;i++) A[i+j*n]*=tmp;
         }
     }
-    free(vv);
     return 0;
 }
 /* LU back-substitution ------------------------------------------------------*/
@@ -973,12 +923,11 @@ extern int matinv(double *A, int n)
     int i,j,*indx;
     
     indx=imat(n,1); B=mat(n,n); matcpy(B,A,n,n);
-    if (ludcmp(B,n,indx,&d)) {free(indx); free(B); return -1;}
+    if (ludcmp(B,n,indx,&d)) { return -1;}
     for (j=0;j<n;j++) {
         for (i=0;i<n;i++) A[i+j*n]=0.0; A[j+j*n]=1.0;
         lubksb(B,n,indx,A+j*n);
     }
-    free(indx); free(B);
     return 0;
 }
 /* solve linear equation -----------------------------------------------------*/
@@ -990,7 +939,6 @@ extern int solve(const char *tr, const double *A, const double *Y, int n,
     
     matcpy(B,A,n,n);
     if (!(info=matinv(B,n))) matmul(tr[0]=='N'?"NN":"TN",n,m,n,1.0,B,Y,0.0,X);
-    free(B);
     return info;
 }
 #endif
@@ -1018,7 +966,6 @@ extern int lsq(const double *A, const double *y, int n, int m, double *x,
     matmul("NN",n,1,m,1.0,A,y,0.0,Ay); /* Ay=A*y */
     matmul("NT",n,n,m,1.0,A,A,0.0,Q);  /* Q=A*A' */
     if (!(info=matinv(Q,n))) matmul("NN",n,1,n,1.0,Q,Ay,0.0,x); /* x=Q^-1*Ay */
-    free(Ay);
     return info;
 }
 /* kalman filter ---------------------------------------------------------------
@@ -1055,7 +1002,6 @@ static int filter_(const double *x, const double *P, const double *H,
         matmul("NT",n,n,m,-1.0,K,H,1.0,I);  /* Pp=(I-K*H')*P */
         matmul("NN",n,n,n,1.0,I,P,0.0,Pp);
     }
-    free(F); free(Q); free(K); free(I);
     return info;
 }
 extern int filter(double *x, double *P, const double *H, const double *v,
@@ -1076,7 +1022,6 @@ extern int filter(double *x, double *P, const double *H, const double *v,
         x[ix[i]]=xp_[i];
         for (j=0;j<k;j++) P[ix[i]+ix[j]*n]=Pp_[i+j*k];
     }
-    free(ix); free(x_); free(xp_); free(P_); free(Pp_); free(H_);
     return info;
 }
 /* smoother --------------------------------------------------------------------
@@ -1111,7 +1056,6 @@ extern int smoother(const double *xf, const double *Qf, const double *xb,
             matmul("NN",n,1,n,1.0,Qs,xx,0.0,xs);
         }
     }
-    free(invQf); free(invQb); free(xx);
     return info;
 }
 static void mat_print(

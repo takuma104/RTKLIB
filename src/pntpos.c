@@ -353,14 +353,12 @@ static int estpos(const obsd_t *obs, int n, const double *rs, const double *dts,
             if ((stat=valsol(azel,vsat,n,opt,v,nv,nx,msg))) {
                 sol->stat=opt->sateph==EPHOPT_SBAS?SOLQ_SBAS:SOLQ_SINGLE;
             }
-            free(v); free(H); free(var);
             
             return stat;
         }
     }
     if (i>=MAXITR) sprintf(msg,"iteration divergent i=%d",i);
     
-    free(v); free(H); free(var);
     
     return 0;
 }
@@ -378,7 +376,7 @@ static int raim_fde(const obsd_t *obs, int n, const double *rs,
     
     trace(3,"raim_fde: %s n=%2d\n",time_str(obs[0].time,0),n);
     
-    if (!(obs_e=(obsd_t *)malloc(sizeof(obsd_t)*n))) return 0;
+    if (!(obs_e=(obsd_t *)alloca(sizeof(obsd_t)*n))) return 0;
     rs_e = mat(6,n); dts_e = mat(2,n); vare_e=mat(1,n); azel_e=zeros(2,n);
     svh_e=imat(1,n); vsat_e=imat(1,n); resp_e=mat(1,n); 
     
@@ -433,9 +431,6 @@ static int raim_fde(const obsd_t *obs, int n, const double *rs,
         time2str(obs[0].time,tstr,2); satno2id(sat,name);
         trace(2,"%s: %s excluded by raim\n",tstr+11,name);
     }
-    free(obs_e);
-    free(rs_e ); free(dts_e ); free(vare_e); free(azel_e);
-    free(svh_e); free(vsat_e); free(resp_e);
     return stat;
 }
 /* doppler residuals ---------------------------------------------------------*/
@@ -509,7 +504,6 @@ static void estvel(const obsd_t *obs, int n, const double *rs, const double *dts
             break;
         }
     }
-    free(v); free(H);
 }
 /* single-point positioning ----------------------------------------------------
 * compute receiver position, velocity, clock bias by single-point positioning
@@ -584,6 +578,5 @@ extern int pntpos(const obsd_t *obs, int n, const nav_t *nav,
             ssat[obs[i].sat-1].resp[0]=resp[i];
         }
     }
-    free(rs); free(dts); free(var); free(azel_); free(resp);
     return stat;
 }
