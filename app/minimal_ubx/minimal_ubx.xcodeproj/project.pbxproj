@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F11172D418E68C4000398C8E /* rcvraw.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D318E68C4000398C8E /* rcvraw.c */; };
-		F11172D718E68C5600398C8E /* sbas.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D618E68C5600398C8E /* sbas.c */; };
 		F11172D918E68C6200398C8E /* ublox.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172D818E68C6200398C8E /* ublox.c */; };
 		F11172DE18E68C7400398C8E /* ephemeris.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DA18E68C7400398C8E /* ephemeris.c */; };
 		F11172DF18E68C7400398C8E /* ionex.c in Sources */ = {isa = PBXBuildFile; fileRef = F11172DB18E68C7400398C8E /* ionex.c */; };
@@ -34,7 +33,6 @@
 		F11172C618E68BF800398C8E /* minimal_ubx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = minimal_ubx; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11172D318E68C4000398C8E /* rcvraw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rcvraw.c; path = ../../../src/rcvraw.c; sourceTree = "<group>"; };
 		F11172D518E68C4C00398C8E /* rtklib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = rtklib.h; path = ../../../src/rtklib.h; sourceTree = "<group>"; };
-		F11172D618E68C5600398C8E /* sbas.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbas.c; path = ../../../src/sbas.c; sourceTree = "<group>"; };
 		F11172D818E68C6200398C8E /* ublox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ublox.c; path = ../../../src/rcv/ublox.c; sourceTree = "<group>"; };
 		F11172DA18E68C7400398C8E /* ephemeris.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ephemeris.c; path = ../../../src/ephemeris.c; sourceTree = "<group>"; };
 		F11172DB18E68C7400398C8E /* ionex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ionex.c; path = ../../../src/ionex.c; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 				F11172DC18E68C7400398C8E /* pntpos.c */,
 				F11172DD18E68C7400398C8E /* preceph.c */,
 				F11172D818E68C6200398C8E /* ublox.c */,
-				F11172D618E68C5600398C8E /* sbas.c */,
 				F11172D318E68C4000398C8E /* rcvraw.c */,
 			);
 			name = RTKLIB;
@@ -147,7 +144,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11172D718E68C5600398C8E /* sbas.c in Sources */,
 				F11172E118E68C7400398C8E /* preceph.c in Sources */,
 				F11172DE18E68C7400398C8E /* ephemeris.c in Sources */,
 				F15B6E1118E69F82000C4274 /* minimal_ubx.c in Sources */,

@@ -123,7 +123,7 @@ extern "C" {
 #define TSYS_CMP    5                   /* time system: BeiDou time */
 
 #ifndef NFREQ
-#define NFREQ       3                   /* number of carrier frequencies */
+#define NFREQ       2                   /* number of carrier frequencies */
 #endif
 #define NFREQGLO    2                   /* number of carrier frequencies of GLONASS */
 
@@ -188,7 +188,8 @@ extern "C" {
 
 #define MINPRNSBS   120                 /* min satellite PRN number of SBAS */
 #define MAXPRNSBS   142                 /* max satellite PRN number of SBAS */
-#define NSATSBS     (MAXPRNSBS-MINPRNSBS+1) /* number of SBAS satellites */
+//#define NSATSBS     (MAXPRNSBS-MINPRNSBS+1) /* number of SBAS satellites */
+#define NSATSBS     (0) /* number of SBAS satellites */
 
 #define MAXSAT      (NSATGPS+NSATGLO+NSATGAL+NSATQZS+NSATCMP+NSATSBS)
                                         /* max satellite number (1 to MAXSAT) */
@@ -816,12 +817,12 @@ typedef struct {        /* navigation data type */
     double glo_cpbias[4];    /* glonass code-phase bias {1C,1P,2C,2P} (m) */
     char glo_fcn[MAXPRNGLO+1]; /* glonass frequency channel number + 8 */
     pcv_t pcvs[MAXSAT]; /* satellite antenna pcv */
-    sbssat_t sbssat;    /* SBAS satellite corrections */
-    sbsion_t sbsion[MAXBAND+1]; /* SBAS ionosphere corrections */
-    dgps_t dgps[MAXSAT]; /* DGPS corrections */
-    ssr_t ssr[MAXSAT];  /* SSR corrections */
-    lexeph_t lexeph[MAXSAT]; /* LEX ephemeris */
-    lexion_t lexion;    /* LEX ionosphere correction */
+//    sbssat_t sbssat;    /* SBAS satellite corrections */
+//    sbsion_t sbsion[MAXBAND+1]; /* SBAS ionosphere corrections */
+//    dgps_t dgps[MAXSAT]; /* DGPS corrections */
+//    ssr_t ssr[MAXSAT];  /* SSR corrections */
+//    lexeph_t lexeph[MAXSAT]; /* LEX ephemeris */
+//    lexion_t lexion;    /* LEX ionosphere correction */
 } nav_t;
 
 typedef struct {        /* station parameter type */
@@ -1136,10 +1137,10 @@ typedef struct {        /* receiver raw data control type */
     nav_t nav;          /* satellite ephemerides */
     sta_t sta;          /* station parameters */
     int ephsat;         /* sat number of update ephemeris (0:no satellite) */
-    sbsmsg_t sbsmsg;    /* SBAS message */
+//    sbsmsg_t sbsmsg;    /* SBAS message */
     char msgtype[256];  /* last message type */
     unsigned char subfrm[MAXSAT][150];  /* subframe buffer (1-5) */
-    lexmsg_t lexmsg;    /* LEX message */
+//    lexmsg_t lexmsg;    /* LEX message */
     double lockt[MAXSAT][NFREQ+NEXOBS]; /* lock time (s) */
     double icpp[MAXSAT],off[MAXSAT],icpc; /* carrier params for ss2 */
     double prCA[MAXSAT],dpCA[MAXSAT]; /* L1/CA pseudrange/doppler for javad */
@@ -1579,6 +1580,7 @@ extern int convkml(const char *infile, const char *outfile, gtime_t ts,
                    int tcolor, int pcolor, int outalt, int outtime);
 
 /* sbas functions ------------------------------------------------------------*/
+#if 0
 extern int  sbsreadmsg (const char *file, int sel, sbs_t *sbs);
 extern int  sbsreadmsgt(const char *file, int sel, gtime_t ts, gtime_t te,
                         sbs_t *sbs);
@@ -1592,7 +1594,8 @@ extern int sbsioncorr(gtime_t time, const nav_t *nav, const double *pos,
                       const double *azel, double *delay, double *var);
 extern double sbstropcorr(gtime_t time, const double *pos, const double *azel,
                           double *var);
-
+#endif
+    
 /* options functions ---------------------------------------------------------*/
 extern opt_t *searchopt(const char *name, const opt_t *opts);
 extern int str2opt(opt_t *opt, const char *str);

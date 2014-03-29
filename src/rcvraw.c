@@ -276,15 +276,15 @@ extern int init_raw(raw_t *raw)
     alm_t  alm0 ={0,-1};
     geph_t geph0={0,-1};
     seph_t seph0={0};
-    sbsmsg_t sbsmsg0={0};
-    lexmsg_t lexmsg0={0};
+//    sbsmsg_t sbsmsg0={0};
+//    lexmsg_t lexmsg0={0};
     int i,j;
     
     trace(3,"init_raw:\n");
     
     raw->time=raw->tobs=time0;
     raw->ephsat=0;
-    raw->sbsmsg=sbsmsg0;
+//    raw->sbsmsg=sbsmsg0;
     raw->msgtype[0]='\0';
     for (i=0;i<MAXSAT;i++) {
         for (j=0;j<150  ;j++) raw->subfrm[i][j]=0;
@@ -293,7 +293,7 @@ extern int init_raw(raw_t *raw)
         raw->icpp[i]=raw->off[i]=raw->prCA[i]=raw->dpCA[i]=0.0;
     }
     for (i=0;i<MAXOBS;i++) raw->freqn[i]=0;
-    raw->lexmsg=lexmsg0;
+//    raw->lexmsg=lexmsg0;
     raw->icpc=0.0;
     raw->nbyte=raw->len=0;
     raw->iod=raw->flag=raw->tbase=raw->outtype=0;

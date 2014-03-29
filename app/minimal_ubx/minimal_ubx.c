@@ -70,7 +70,12 @@ int main(int argc, const char * argv[])
     int fd = open_serial("/dev/tty.SLAB_USBtoUART");
     
     char buf[255];
-    
+/*
+    int size = sizeof(raw_t);
+    int a = sizeof(obs_t);
+    int b = sizeof(nav_t);
+    int c = sizeof(sta_t);
+*/
     prcopt_t opt = prcopt_default;
     opt.mode = PMODE_SINGLE;
     opt.dynamics = 1;

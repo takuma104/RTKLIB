@@ -513,6 +513,7 @@ static int ephpos(gtime_t time, gtime_t teph, int sat, const nav_t *nav,
     
     return 1;
 }
+#if 0
 /* satellite position and clock with sbas correction -------------------------*/
 static int satpos_sbas(gtime_t time, gtime_t teph, int sat, const nav_t *nav,
                         double *rs, double *dts, double *var, int *svh)
@@ -639,6 +640,8 @@ static int satpos_ssr(gtime_t time, gtime_t teph, int sat, const nav_t *nav,
     
     return 1;
 }
+#endif
+
 /* satellite position and clock ------------------------------------------------
 * compute satellite position, velocity and clock
 * args   : gtime_t time     I   time (gpst)
@@ -665,9 +668,9 @@ extern int satpos(gtime_t time, gtime_t teph, int sat, int ephopt,
     
     switch (ephopt) {
         case EPHOPT_BRDC  : return ephpos     (time,teph,sat,nav,-1,rs,dts,var,svh);
-        case EPHOPT_SBAS  : return satpos_sbas(time,teph,sat,nav,   rs,dts,var,svh);
-        case EPHOPT_SSRAPC: return satpos_ssr (time,teph,sat,nav, 0,rs,dts,var,svh);
-        case EPHOPT_SSRCOM: return satpos_ssr (time,teph,sat,nav, 1,rs,dts,var,svh);
+//        case EPHOPT_SBAS  : return satpos_sbas(time,teph,sat,nav,   rs,dts,var,svh);
+//        case EPHOPT_SSRAPC: return satpos_ssr (time,teph,sat,nav, 0,rs,dts,var,svh);
+//        case EPHOPT_SSRCOM: return satpos_ssr (time,teph,sat,nav, 1,rs,dts,var,svh);
         case EPHOPT_PREC  :
             if (!peph2pos(time,sat,nav,1,rs,dts,var)) break; else return 1;
         case EPHOPT_LEX   :

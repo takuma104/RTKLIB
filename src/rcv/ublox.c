@@ -232,11 +232,11 @@ static int decode_rxmsfrb(raw_t *raw)
         if (id==5) return decode_alm2 (sat,raw);
         return 0;
     }
-    else if (sys==SYS_SBS) {
+/*    else if (sys==SYS_SBS) {
         for (i=0,p+=2;i<10;i++,p+=4) words[i]=U4(p);
         return sbsdecodemsg(raw->time,prn,words,&raw->sbsmsg)?3:0;
     }
-    return 0;
+*/    return 0;
 }
 /* decode ublox raw message --------------------------------------------------*/
 static int decode_ubx(raw_t *raw)

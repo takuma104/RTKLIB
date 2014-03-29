@@ -14,7 +14,7 @@ LDLIBS  = -lm -lpthread
 
 all        : minimal_ubx
 minimal_ubx     : minimal_ubx.o rtkcmn.o 
-minimal_ubx     : sbas.o rcvraw.o preceph.o pntpos.o
+minimal_ubx     : rcvraw.o preceph.o pntpos.o
 minimal_ubx     : ublox.o 
 minimal_ubx     : ephemeris.o ionex.o
 
