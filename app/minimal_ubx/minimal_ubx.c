@@ -21,17 +21,13 @@ int trace_vprintf(const char *format, va_list ap){
 #ifdef WITHOUT_SYSTIME
 #include <time.h>
 extern gtime_t timeget(){
-    time_t timer;
-    struct tm *tt;
-    time(&timer);
-    tt = gmtime(&timer);
     double ep[] = {
-        tt->tm_year + 1900, tt->tm_mon + 1, tt->tm_mday,
-        tt->tm_hour, tt->tm_min, tt->tm_sec};
-    return epoch2time(ep);
+        0, 0, 0,
+        0, 0, 0};
+    return epoch2time(ep); // dummy
 }
 unsigned int tickget(){
-    return clock() * 1000 / CLOCKS_PER_SEC;
+    return 0; // dummy
 }
 #endif
 
@@ -65,7 +61,7 @@ static int open_serial(const char* device_name) {
 
 int main(int argc, const char * argv[])
 {
-    tracelevel(3);
+    tracelevel(2);
     
     int fd = open_serial("/dev/tty.SLAB_USBtoUART");
     
@@ -92,7 +88,7 @@ int main(int argc, const char * argv[])
         }
         for (int i = 0; i < s; i++) {
             int ret = input_raw(&raw, STRFMT_UBX, buf[i]);
-            if (ret > 0) {
+            if (ret == 1) { // only observe message
                 char *pos_mode = NULL;
                 double *x = NULL;
                 
@@ -110,7 +106,7 @@ int main(int argc, const char * argv[])
                 if(pos_mode){
                     double pos[3];
                     ecef2pos(x, pos);
-                    trace(3, "%s (llh): %f, %f, %f\n", pos_mode, pos[0] * R2D, pos[1] * R2D, pos[2]);
+                    printf("*** %s (llh): %f, %f, %f *** \n", pos_mode, pos[0] * R2D, pos[1] * R2D, pos[2]);
                 }
                 
             }

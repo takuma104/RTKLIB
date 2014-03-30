@@ -533,7 +533,7 @@ extern int pntpos(const obsd_t *obs, int n, const nav_t *nav,
     
     if (n<=0) {strcpy(msg,"no observation data"); return 0;}
     
-    trace(3,"pntpos  : tobs=%s n=%d\n",time_str(obs[0].time,3),n);
+    trace(2,"pntpos  : tobs=%s n=%d\n",time_str(obs[0].time,3),n);
     
     sol->time=obs[0].time; msg[0]='\0';
     
