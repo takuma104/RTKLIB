@@ -61,7 +61,7 @@ static int open_serial(const char* device_name) {
 
 int main(int argc, const char * argv[])
 {
-    tracelevel(2);
+    tracelevel(1);
     
     int fd = open_serial("/dev/tty.SLAB_USBtoUART");
     
@@ -78,6 +78,7 @@ int main(int argc, const char * argv[])
     opt.nf = 2;
     
     raw_t raw;
+    memset(&raw, 0, sizeof(raw_t));
     init_raw(&raw);
 
     while (1) {
@@ -93,11 +94,16 @@ int main(int argc, const char * argv[])
                 double *x = NULL;
                 
                 sol_t sol;
+                memset(&sol, 0, sizeof(sol_t));
                 
+				ssat_t ssat[MAXSAT];
+                memset(ssat, 0, sizeof(ssat_t)*MAXSAT);
+
                 {
                     // single point positioning
                     char buf[0x100];
-                    if(pntpos(raw.obs.data, raw.obs.n, &raw.nav, &opt, &sol, NULL, NULL, buf)){
+                    memset(buf, 0, sizeof(buf));
+                    if(pntpos(raw.obs.data, raw.obs.n, &raw.nav, &opt, &sol, NULL, ssat, buf)){
                         pos_mode = "pntpos";
                         x = sol.rr;
                     }
@@ -106,7 +112,22 @@ int main(int argc, const char * argv[])
                 if(pos_mode){
                     double pos[3];
                     ecef2pos(x, pos);
-                    printf("*** %s (llh): %f, %f, %f *** \n", pos_mode, pos[0] * R2D, pos[1] * R2D, pos[2]);
+
+					double dop[4]={0};
+                    double azel[MAXSAT*2];
+                    
+					int i, n;
+                    for (i=n=0;i<MAXSAT;i++) {
+                        if (!ssat[i].vs) continue;
+                        azel[  n*2]=ssat[i].azel[0];
+                        azel[1+n*2]=ssat[i].azel[1];
+                        n++;
+                    }
+                    dops(n,azel,0.0,dop);
+                    
+                    printf("UTC:%s SAT:%d/%d POS:%f, %f, %.1f GDOP:%.1f PDOP:%.1f HDOP:%.1f VDOP:%.1f\n", time_str(raw.obs.data[0].time,3), sol.ns, raw.obs.n, pos[0] * R2D, pos[1] * R2D, pos[2], dop[0], dop[1], dop[2], dop[3]);
+                } else {
+					printf("UTC:%s SAT:0/%d\n", time_str(raw.obs.data[0].time,3), raw.obs.n);
                 }
                 
             }
